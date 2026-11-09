@@ -30,19 +30,7 @@ Tests existants (`python -m pytest`) : 6 tests, tous verts, qui ne vérifient qu
 
 ## Dépendances
 
-```mermaid
-flowchart TD
-    API["app/api (FastAPI)"] --> SVC[app/services]
-    API -->|db.query direct| ORM[app/models SQLAlchemy]
-    API --> DB[app/database get_db]
-    SVC --> REPO[app/repositories]
-    SVC -->|db.query direct| ORM
-    SVC --> NOTIF[NotificationService]
-    NOTIF --> MAIL[utils/email_sender]
-    MAIL --> CFG[config.settings]
-    REPO --> ORM
-    ORM --> DB
-```
+![alt text](image.png)
 
 Toutes les flèches pointent vers la technique : le « cœur » (services) dépend de SQLAlchemy (`Session`, modèles ORM) et instancie lui‑même ses dépendances (`ConcertRepository(db)`, `NotificationService()`), ce qui empêche de les remplacer.
 

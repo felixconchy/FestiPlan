@@ -26,54 +26,7 @@ Ils remplacent les données brutes (`start_time`/`end_time` séparés, chaîne `
 
 ## Agrégats
 
-```mermaid
-classDiagram
-    class Festival {
-        <<Aggregate Root>>
-        id
-        name
-        location
-        period: FestivalPeriod
-        status: ScheduleStatus
-        schedule_concert()
-        reschedule_concert()
-        cancel_concert()
-        publish()
-        reschedule_published_concert()
-        pull_events()
-    }
-    class Concert {
-        <<Entity>>
-        id
-        artist_id
-        stage_id
-        slot: TimeSlot
-        status: ConcertStatus
-    }
-    class Stage {
-        <<Aggregate Root>>
-        id
-        festival_id
-        capacity
-        equipment: Equipment
-    }
-    class Artist {
-        <<Aggregate Root>>
-        id
-        name
-        required_equipment: Equipment
-    }
-    class Incident {
-        <<Aggregate Root>>
-        id
-        concert_id
-        description
-    }
-    Festival "1" *-- "*" Concert
-    Concert ..> Stage : stage_id
-    Concert ..> Artist : artist_id
-    Incident ..> Concert : concert_id
-```
+![alt text](image-1.png)
 
 - **Festival (planning)** = `Festival` + ses `Concert`. Les règles R2, R3, R7, R8 portent sur *l'ensemble* des concerts d'un festival : elles ne peuvent être garanties que si toutes les modifications passent par une même racine. Un `Concert` n'a pas de méthode publique de modification : on déplace/annule un concert via le `Festival`.
 - **Stage**, **Artist**, **Incident** sont des agrégats séparés, référencés **par identifiant**. Ils évoluent indépendamment (un artiste peut être créé sans festival) ; les inclure dans le festival agrandirait l'agrégat sans protéger de règle supplémentaire. Pour vérifier R4/R5 le festival reçoit la scène et l'artiste concernés en paramètre (lecture seule).
