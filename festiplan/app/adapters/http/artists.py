@@ -14,7 +14,7 @@ def artist_out(a):
 
 @router.get("", response_model=list[ArtistRead])
 def list_artists(container: Container = Depends(get_container)):
-    return [artist_out(a) for a in container.list_artists.execute()]
+    return [artist_out(a) for a in container.queries.artists()]
 
 
 @router.post("", response_model=ArtistRead, status_code=201)

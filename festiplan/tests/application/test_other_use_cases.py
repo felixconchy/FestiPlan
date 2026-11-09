@@ -5,7 +5,8 @@ import pytest
 from app.application.errors import AlreadyExists, NotFound
 from app.application.use_cases.catalog import (CreateStage, CreateStageCommand, RegisterArtist,
                                                RegisterArtistCommand)
-from app.application.use_cases.concerts import (CancelConcert, GetSchedule, ScheduleConcert,
+from app.application.queries import Queries
+from app.application.use_cases.concerts import (CancelConcert, ScheduleConcert,
                                                 ScheduleConcertCommand)
 from app.application.use_cases.festivals import CreateFestival, CreateFestivalCommand
 from app.application.use_cases.incidents import ReportIncident, ReportIncidentCommand
@@ -40,9 +41,10 @@ def test_schedule_concert_rules(repos):
 
 def test_cancel_concert_removes_it_from_schedule(repos):
     CancelConcert(repos["festivals"]).execute(10)
-    assert [c.id for c in GetSchedule(repos["festivals"]).execute(1)] == [11]
+    queries = Queries(repos["festivals"], repos["stages"], repos["artists"], repos["incidents"])
+    assert [c.id for c in queries.schedule(1)] == [11]
     with pytest.raises(NotFound):
-        GetSchedule(repos["festivals"]).execute(99)
+        queries.schedule(99)
 
 
 def test_register_artist_refuses_duplicates(repos):

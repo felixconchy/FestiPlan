@@ -25,11 +25,3 @@ class ReportIncident:
         if self._festivals.find_by_concert(cmd.concert_id) is None:
             raise NotFound("Concert introuvable")
         return self._incidents.add(incident)
-
-
-class ListIncidents:
-    def __init__(self, incidents: IncidentRepository):
-        self._incidents = incidents
-
-    def execute(self, concert_id: int | None = None) -> list[Incident]:
-        return self._incidents.list(concert_id)

@@ -15,7 +15,7 @@ def stage_out(s):
 
 @router.get("", response_model=list[StageRead])
 def list_stages(festival_id: int, container: Container = Depends(get_container)):
-    return [stage_out(s) for s in container.list_stages.execute(festival_id)]
+    return [stage_out(s) for s in container.queries.stages(festival_id)]
 
 
 @router.post("", response_model=StageRead, status_code=201)

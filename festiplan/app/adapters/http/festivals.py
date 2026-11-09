@@ -18,7 +18,7 @@ def festival_out(f, notification_status=None):
 
 @router.get("", response_model=list[FestivalRead])
 def list_festivals(container: Container = Depends(get_container)):
-    return [festival_out(f) for f in container.list_festivals.execute()]
+    return [festival_out(f) for f in container.queries.festivals()]
 
 
 @router.post("", response_model=FestivalRead, status_code=201)

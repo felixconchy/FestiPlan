@@ -54,7 +54,7 @@ pytest
 ```
 app/
 ├── domain/            entités, objets-valeurs, agrégat Festival, événements, erreurs métier
-├── application/       ports + cas d'utilisation + EventDispatcher
+├── application/       ports + cas d'utilisation + Queries (lectures) + EventDispatcher
 ├── adapters/
 │   ├── http/          contrôleurs FastAPI, schémas Pydantic, traduction des erreurs
 │   ├── persistence/   ORM, session, repositories SQLAlchemy

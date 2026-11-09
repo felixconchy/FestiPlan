@@ -21,17 +21,17 @@ def concert_out(c, notification_status=None):
 
 @router.get("", response_model=list[ConcertRead])
 def list_concerts(festival_id: int, container: Container = Depends(get_container)):
-    return [concert_out(c) for c in container.get_schedule.execute(festival_id)]
+    return [concert_out(c) for c in container.queries.schedule(festival_id)]
 
 
 @router.get("/schedule/{festival_id}", response_model=list[ConcertRead])
 def get_schedule(festival_id: int, container: Container = Depends(get_container)):
-    return [concert_out(c) for c in container.get_schedule.execute(festival_id)]
+    return [concert_out(c) for c in container.queries.schedule(festival_id)]
 
 
 @router.get("/{concert_id}", response_model=ConcertRead)
 def get_concert(concert_id: int, container: Container = Depends(get_container)):
-    return concert_out(container.get_concert.execute(concert_id))
+    return concert_out(container.queries.concert(concert_id))
 
 
 @router.post("", response_model=ConcertRead, status_code=201)

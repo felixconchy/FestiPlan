@@ -29,7 +29,7 @@ Règle de dépendance : vérifiable par `grep -r "sqlalchemy\|fastapi" app/domai
 | `StageRepository`, `ArtistRepository`, `IncidentRepository` | accès aux autres agrégats | `Sql…Repository` | `InMemory…Repository` |
 | `Notifier` | envoyer une notification à partir d'un événement de domaine | `EmailNotifier` (simulé, panne configurable) | `FakeNotifier(fail=…)` |
 
-Ports entrants : les cas d'utilisation eux‑mêmes (`execute(command)`), appelés par les contrôleurs. Les cas d'utilisation ne créent jamais leurs dépendances : elles sont injectées par `Container`.
+Ports entrants : les cas d'utilisation eux‑mêmes (`execute(command)`), appelés par les contrôleurs. Les simples consultations (listes, planning, détail d'un concert) n'ont pas de règle métier : elles sont regroupées dans une seule classe `Queries` plutôt qu'une classe par lecture. Les cas d'utilisation ne créent jamais leurs dépendances : elles sont injectées par `Container`.
 
 On n'a pas créé de port « Unit of Work » ni de bus d'événements : un seul agrégat est modifié par opération, la sauvegarde de cet agrégat suffit comme frontière transactionnelle.
 

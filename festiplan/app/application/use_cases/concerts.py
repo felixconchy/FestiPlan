@@ -105,27 +105,3 @@ class CancelConcert:
         concert = festival.cancel_concert(concert_id)
         self._festivals.save(festival)
         return concert
-
-
-class GetConcert:
-    def __init__(self, festivals: FestivalRepository):
-        self._festivals = festivals
-
-    def execute(self, concert_id: int) -> Concert:
-        festival = self._festivals.find_by_concert(concert_id)
-        if festival is None:
-            raise NotFound("Concert introuvable")
-        return festival.concert(concert_id)
-
-
-class GetSchedule:
-    """Planning : concerts actifs d'un festival dans l'ordre chronologique."""
-
-    def __init__(self, festivals: FestivalRepository):
-        self._festivals = festivals
-
-    def execute(self, festival_id: int) -> list[Concert]:
-        festival = self._festivals.get(festival_id)
-        if festival is None:
-            raise NotFound("Festival introuvable")
-        return festival.active_concerts

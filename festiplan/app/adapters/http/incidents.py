@@ -22,4 +22,4 @@ def create_incident(payload: IncidentCreate, container: Container = Depends(get_
 
 @router.get("", response_model=list[IncidentRead])
 def list_incidents(concert_id: int | None = None, container: Container = Depends(get_container)):
-    return [incident_out(i) for i in container.list_incidents.execute(concert_id)]
+    return [incident_out(i) for i in container.queries.incidents(concert_id)]

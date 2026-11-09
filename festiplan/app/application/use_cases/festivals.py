@@ -26,13 +26,6 @@ class CreateFestival:
         return festival
 
 
-class ListFestivals:
-    def __init__(self, festivals: FestivalRepository):
-        self._festivals = festivals
-
-    def execute(self) -> list[Festival]:
-        return self._festivals.list()
-
 
 @dataclass(frozen=True)
 class PublishScheduleCommand:

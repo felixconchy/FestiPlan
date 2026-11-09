@@ -24,13 +24,6 @@ class RegisterArtist:
         return self._artists.add(Artist(None, cmd.name, cmd.genre, Equipment.of(cmd.required_equipment)))
 
 
-class ListArtists:
-    def __init__(self, artists: ArtistRepository):
-        self._artists = artists
-
-    def execute(self) -> list[Artist]:
-        return self._artists.list()
-
 
 @dataclass(frozen=True)
 class CreateStageCommand:
@@ -49,11 +42,3 @@ class CreateStage:
         if self._festivals.get(cmd.festival_id) is None:
             raise NotFound("Festival introuvable")
         return self._stages.add(stage)
-
-
-class ListStages:
-    def __init__(self, stages: StageRepository):
-        self._stages = stages
-
-    def execute(self, festival_id: int) -> list[Stage]:
-        return self._stages.list_for_festival(festival_id)
